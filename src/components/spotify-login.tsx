@@ -13,22 +13,40 @@ import { fetchProfile, getAccessToken, redirectToAuthCode } from '../api/spotify
 //	);
 //}
 
+async function logIn(clientId: string, code: string) {
+	let token: string = "";
+	//code = "";
+	if (!code) {
+		redirectToAuthCode(clientId);
+	} else {
+		console.log("code: ", code)
+		const token = await getAccessToken(clientId, code);
+		console.log(token);
+	}
+	return token
+}
+
 export default class SpotifyLogin extends Component {
-	clientId = process.env.REACT_APP_CLIENT_ID;
+	clientId = process.env.REACT_APP_CLIENT_ID || "";
 	params = new URLSearchParams(window.location.search);
 	code = this.params.get("code");
 
+	async componentDidMount() {
+		const profile = await fetchProfile(this.code!);
+		console.log(profile);
+
+		return profile;
+	}
+
   	render() {
-		console.log(this.clientId);
-		if (!this.code) {
-			//redirectToAuthCode(this.clientId)
-		} else {
-			//const access_token = getAccessToken(this.clientId, this.code);
-			//console.log(access_token);
-		}
+		const token = logIn(this.clientId, this.code!);
+		console.log(token);
+		const profile = this.componentDidMount();
+		console.log(profile);
 		//print();
     	return (
       	<div>
+			{/* <button onClick={() => logIn(this.clientId, this.code!)}>Log in</button> */}
         	<h1>Display your Spotify profile data</h1>
             	<section id="profile">
             		<h2>Logged in as <span id="displayName"></span></h2>

@@ -63,7 +63,7 @@ export async function redirectToAuthCode(clientId: string) {
 	document.location = `https://accounts.spotify.com/authorize?${params.toString()}`;
 }
 
-export async function getAccessToken(clientId: string, code: string) {
+export async function getAccessToken(clientId: string, code: string): Promise<string> {
 	const verifier = localStorage.getItem("verifier");
 
     const params = new URLSearchParams();
@@ -83,7 +83,7 @@ export async function getAccessToken(clientId: string, code: string) {
     return access_token;
 }
 
-export async function fetchProfile(token: string): Promise<any> {
+export async function fetchProfile(token: string): Promise<UserProfile> {
     const result = await fetch("https://api.spotify.com/v1/me", {
         method: "GET", headers: { Authorization: `Bearer ${token}` }
     });

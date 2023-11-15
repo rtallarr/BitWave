@@ -83,11 +83,28 @@ export async function getAccessToken(clientId: string, code: string): Promise<st
     return access_token;
 }
 
-export async function fetchProfile(token: string): Promise<UserProfile> {
-    const result = await fetch("https://api.spotify.com/v1/me", {
-        method: "GET", headers: { Authorization: `Bearer ${token}` }
+export async function fetchProfile(): Promise<UserProfile> {
+    const token = localStorage.getItem('token')
+    const res = await axios.get(`https://api.spotify.com/v1/me`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     });
 
-    return await result.json();
+    return res.data;
 }
 
+export async function fetchArtist() {
+    const token = localStorage.getItem('token')
+    const res = await axios.get(`https://api.spotify.com/v1/search`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        params: {
+            q: 'Peso Pluma',
+            type: 'artist'
+        }
+    });
+    
+    return res;
+}

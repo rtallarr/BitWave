@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 //import { getArtist, getProfile } from '../api/spotify';
-import { fetchProfile, getAccessToken, redirectToAuthCode } from '../api/spotify';
+import { fetchProfile, getAccessToken, redirectToAuthCode, fetchArtist } from '../api/spotify';
+import axios from 'axios';
 
 //async function print() {
 //	console.log(
@@ -21,44 +22,87 @@ async function logIn(clientId: string, code: string) {
 	} else {
 		console.log("code: ", code)
 		const token = await getAccessToken(clientId, code);
-		console.log(token);
+		console.log("token: ", token);
 	}
 	return token
 }
 
+//function log() {
+//	const [token, setToken] = useState<string>("")
+//
+//	useEffect(() => {
+//		const hash = window.location.hash
+//		let token = window.localStorage.getItem('token')
+//
+//		if (!token && hash) {
+//			token = hash.substring(1).split('&').find(elem => elem.startsWith("access_token"))?.split('=')[1] || ""
+//			console.log("token: ", token)
+//		}
+//	}, [])
+//}
+
 export default class SpotifyLogin extends Component {
+	AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+	REDIRECT_URI = "http://localhost:3000";
+
 	clientId = process.env.REACT_APP_CLIENT_ID || "";
 	params = new URLSearchParams(window.location.search);
 	code = this.params.get("code");
 
-	async componentDidMount() {
-		const profile = await fetchProfile(this.code!);
-		console.log(profile);
-
-		return profile;
-	}
-
   	render() {
-		const token = logIn(this.clientId, this.code!);
-		console.log(token);
-		const profile = this.componentDidMount();
-		console.log(profile);
+		//const token = logIn(this.clientId, this.code!);
+		//console.log(token);
+		//const profile = this.componentDidMount();
+		//console.log(profile);
 		//print();
+		const hash = window.location.hash
+		const token = hash.substring(1).split('&').find(elem => elem.startsWith("access_token"))?.split('=')[1] || "";
+
+		if (!token) {
+			console.log("no token")
+		} else {
+			localStorage.setItem('token', token)
+		}
+		
+		//console.log("hash", hash)
+		//console.log("token", token)
+		fetchArtist().then (res => console.log("artist: ", res))
+
+		let profile = fetchProfile().then (res => {
+			console.log("profile: ", res)
+			document.getElementById("displayName")!.innerHTML = res.display_name;
+			document.getElementById("id")!.innerHTML = res.id;
+			document.getElementById("email")!.innerHTML = res.email;
+			document.getElementById("uri")!.innerHTML = res.uri;
+			document.getElementById("uri")!.setAttribute("href", res.uri);
+			document.getElementById("url")!.innerHTML = res.external_urls.spotify;
+			document.getElementById("url")!.setAttribute("href", res.external_urls.spotify);
+			document.getElementById("imgUrl")!.innerHTML = res.images[0].url;
+			document.getElementById("avatar")!.innerHTML = `<img src="${res.images[0].url}" />`;
+		});
+
     	return (
       	<div>
 			{/* <button onClick={() => logIn(this.clientId, this.code!)}>Log in</button> */}
         	<h1>Display your Spotify profile data</h1>
-            	<section id="profile">
-            		<h2>Logged in as <span id="displayName"></span></h2>
-            		<span id="avatar"></span>
-            		<ul>
-            		    <li>User ID: <span id="id"></span></li>
-            		    <li>Email: <span id="email"></span></li>
-            		    <li>Spotify URI: <a id="uri" href="#"></a></li>
-            		    <li>Link: <a id="url" href="#"></a></li>
-            		    <li>Profile Image: <span id="imgUrl"></span></li>
-            		</ul>
-            	</section>
+			{token ? 
+            <section id="profile">
+            	<h2>Logged in as <span id="displayName"></span></h2>
+            	<span id="avatar"></span>
+            	<ul>
+            	    <li>User ID: <span id="id"></span></li>
+            	    <li>Email: <span id="email"></span></li>
+            	    <li>Spotify URI: <a id="uri" href="#"></a></li>
+            	    <li>Link: <a id="url" href="#"></a></li>
+            	    <li>Profile Image: <span id="imgUrl"></span></li>
+					<li>Avatar: <span id='avatar'></span></li>
+            	</ul>
+            </section>
+			:
+			<a href={`${this.AUTH_ENDPOINT}?client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${this.REDIRECT_URI}&response_type=token`}>
+				Login to spotify
+			</a>
+			}
       	</div>
     	)
   	}

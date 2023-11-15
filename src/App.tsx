@@ -7,6 +7,7 @@ import SpotifyLogin from './components/spotify-login'
 
 class App extends Component {
   render() {
+    console.log("running app in", process.env.NODE_ENV)
     return (
       <div className="App">
         <SpotifyLogin />

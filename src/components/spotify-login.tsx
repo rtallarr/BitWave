@@ -66,7 +66,7 @@ export default class SpotifyLogin extends Component {
 		
 		//console.log("hash", hash)
 		//console.log("token", token)
-		fetchArtist().then (res => console.log("artist: ", res))
+		//fetchArtist().then (res => console.log("artist: ", res))
 
 		let profile = fetchProfile().then (res => {
 			console.log("profile: ", res)

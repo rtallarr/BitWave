@@ -56,30 +56,36 @@ export default class SpotifyLogin extends Component {
 		//console.log(profile);
 		//print();
 		const hash = window.location.hash
-		const token = hash.substring(1).split('&').find(elem => elem.startsWith("access_token"))?.split('=')[1] || "";
+		let token: string = ""
+
+		//if the route has a hash, get the token from the hash
+		if (!hash) {
+			console.log("no hash")
+		} else {
+			token = hash.substring(1).split('&').find(elem => elem.startsWith("access_token"))?.split('=')[1] || "";
+		}
 
 		if (!token) {
 			console.log("no token")
 		} else {
 			localStorage.setItem('token', token)
+			fetchProfile().then (res => {
+				console.log("profile: ", res)
+				document.getElementById("displayName")!.innerHTML = res.display_name;
+				document.getElementById("id")!.innerHTML = res.id;
+				document.getElementById("email")!.innerHTML = res.email;
+				document.getElementById("uri")!.innerHTML = res.uri;
+				document.getElementById("uri")!.setAttribute("href", res.uri);
+				document.getElementById("url")!.innerHTML = res.external_urls.spotify;
+				document.getElementById("url")!.setAttribute("href", res.external_urls.spotify);
+				document.getElementById("imgUrl")!.innerHTML = res.images[0].url;
+				document.getElementById("avatar")!.innerHTML = `<img src="${res.images[0].url}" />`;
+			});
 		}
 		
 		//console.log("hash", hash)
 		//console.log("token", token)
-		fetchArtist().then (res => console.log("artist: ", res))
-
-		let profile = fetchProfile().then (res => {
-			console.log("profile: ", res)
-			document.getElementById("displayName")!.innerHTML = res.display_name;
-			document.getElementById("id")!.innerHTML = res.id;
-			document.getElementById("email")!.innerHTML = res.email;
-			document.getElementById("uri")!.innerHTML = res.uri;
-			document.getElementById("uri")!.setAttribute("href", res.uri);
-			document.getElementById("url")!.innerHTML = res.external_urls.spotify;
-			document.getElementById("url")!.setAttribute("href", res.external_urls.spotify);
-			document.getElementById("imgUrl")!.innerHTML = res.images[0].url;
-			document.getElementById("avatar")!.innerHTML = `<img src="${res.images[0].url}" />`;
-		});
+		//fetchArtist().then (res => console.log("artist: ", res))
 
     	return (
       	<div>

@@ -43,9 +43,9 @@ async function logIn(clientId: string, code: string) {
 
 export default class SpotifyLogin extends Component {
 	AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-	REDIRECT_URI = "http://localhost:3000";
-
+	REDIRECT_URI = ""
 	clientId = process.env.REACT_APP_CLIENT_ID || "";
+
 	params = new URLSearchParams(window.location.search);
 	code = this.params.get("code");
 
@@ -55,6 +55,14 @@ export default class SpotifyLogin extends Component {
 		//const profile = this.componentDidMount();
 		//console.log(profile);
 		//print();
+		if(process.env.NODE_ENV !== 'production') {
+			this.REDIRECT_URI = "http://localhost:3000";
+		} else {
+			this.REDIRECT_URI = "https://bit-wave.vercel.app";
+		}
+		console.log("App is running in:", process.env.NODE_ENV)
+		console.log("redirect_uri: ", this.REDIRECT_URI)
+
 		const hash = window.location.hash
 		let token: string = ""
 

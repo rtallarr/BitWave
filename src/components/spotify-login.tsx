@@ -18,17 +18,13 @@ export default class SpotifyLogin extends Component {
 		let token: string = window.localStorage.getItem('token') || "";
 
 		//if the route has a hash, get the token from the hash
-		if (!hash) {
-			console.log("no hash")
-		} else {
+		if (hash && token == "") {
 			token = hash.substring(1).split('&').find(elem => elem.startsWith("access_token"))?.split('=')[1] || "";
 		}
 
-		if (!token) {
-			console.log("no token")
-		} else {
+		if (token) {
 			localStorage.setItem('token', token)
-			fetchProfile().then (res => {
+			fetchProfile(token).then (res => {
 				console.log("profile: ", res)
 				document.getElementById("displayName")!.innerHTML = res.display_name;
 				document.getElementById("id")!.innerHTML = res.id;

@@ -1,69 +1,21 @@
 import React, { Component} from 'react'
-//import { getArtist, getProfile } from '../api/spotify';
-import { fetchProfile, getAccessToken, redirectToAuthCode, fetchArtist } from '../api/spotify';
-import axios from 'axios';
-
-//async function print() {
-//	console.log(
-//		'getartist',
-//		await getArtist('12GqGscKJx3aE4t07u7eVZ?si=ySfGfe9cSzCpoDq-qMKSLA', 'BQCJe1g7KHE7ZCtvYtXFuSCSS3tgLR3KPspDrge2TxZirwjK1Se-z3-3yd0DDuG097xdOLWMB6kw4eiyoj9ib-3o0v-0OeSzPuG8ETvh4YOB9vG6on4')
-//		);
-//	console.log(
-//		'getprofile',
-//		await getProfile('BQCJe1g7KHE7ZCtvYtXFuSCSS3tgLR3KPspDrge2TxZirwjK1Se-z3-3yd0DDuG097xdOLWMB6kw4eiyoj9ib-3o0v-0OeSzPuG8ETvh4YOB9vG6on4', 'tomiroman')
-//	);
-//}
-
-async function logIn(clientId: string, code: string) {
-	let token: string = "";
-	//code = "";
-	if (!code) {
-		redirectToAuthCode(clientId);
-	} else {
-		console.log("code: ", code)
-		const token = await getAccessToken(clientId, code);
-		console.log("token: ", token);
-	}
-	return token
-}
-
-//function log() {
-//	const [token, setToken] = useState<string>("")
-//
-//	useEffect(() => {
-//		const hash = window.location.hash
-//		let token = window.localStorage.getItem('token')
-//
-//		if (!token && hash) {
-//			token = hash.substring(1).split('&').find(elem => elem.startsWith("access_token"))?.split('=')[1] || ""
-//			console.log("token: ", token)
-//		}
-//	}, [])
-//}
+import { fetchProfile, getAccessToken, redirectToAuthCode } from '../api/spotify';
 
 export default class SpotifyLogin extends Component {
 	AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 	REDIRECT_URI = "http://localhost:3000"
-	clientId = process.env.REACT_APP_CLIENT_ID || "";
 
 	params = new URLSearchParams(window.location.search);
 	code = this.params.get("code");
 
   	render() {
-		//const token = logIn(this.clientId, this.code!);
-		//console.log(token);
-		//const profile = this.componentDidMount();
-		//console.log(profile);
-		//print();
+
 		if(process.env.NODE_ENV == 'production') {
 			this.REDIRECT_URI = "https://bit-wave.vercel.app";
 		} 
 
-		console.log("App is running in:", process.env.NODE_ENV)
-		console.log("redirect_uri: ", this.REDIRECT_URI)
-
 		const hash = window.location.hash
-		let token: string = ""
+		let token: string = window.localStorage.getItem('token') || "";
 
 		//if the route has a hash, get the token from the hash
 		if (!hash) {
@@ -89,10 +41,6 @@ export default class SpotifyLogin extends Component {
 				document.getElementById("avatar")!.innerHTML = `<img src="${res.images[0].url}" />`;
 			});
 		}
-		
-		//console.log("hash", hash)
-		//console.log("token", token)
-		//fetchArtist().then (res => console.log("artist: ", res))
 
     	return (
       	<div>

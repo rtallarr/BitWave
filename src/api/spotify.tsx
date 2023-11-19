@@ -94,14 +94,14 @@ export async function fetchProfile(): Promise<UserProfile> {
     return res.data;
 }
 
-export async function fetchArtist() {
+export async function fetchArtist(nombre: string): Promise<any> { //! create type for artist
     const token = localStorage.getItem('token')
     const res = await axios.get(`https://api.spotify.com/v1/search`, {
         headers: {
             Authorization: `Bearer ${token}`
         },
         params: {
-            q: 'Peso Pluma',
+            q: nombre,
             type: 'artist'
         }
     });

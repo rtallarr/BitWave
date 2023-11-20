@@ -1,11 +1,17 @@
 version: 2
 updates:
-  - package-ecosystem: github-actions
-    directory: /
+  - package-ecosystem: "npm"
+    directory: "/" # Location of package manifests
     schedule:
-      interval: daily
+      interval: "daily"
+    assignees: 
+      - "rtallarr"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore(dev)"
+      include: "scope"
 
-  - package-ecosystem: npm
-    directory: /
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: daily
+      interval: "daily"

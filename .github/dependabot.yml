@@ -15,3 +15,9 @@ updates:
     directory: /
     schedule:
       interval: daily
+    asignees:
+      - "rtallarr"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore(dev)"
+      include: "scope"

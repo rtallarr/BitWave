@@ -19,5 +19,4 @@ updates:
       - "rtallarr"
     commit-message:
       prefix: "chore"
-      prefix-development: "chore(dev)"
       include: "scope"

@@ -1,32 +1,5 @@
 import axios from "axios";
 
-//export async function getArtist(id: string, token: string) {
-//    try {
-//        const res = await axios.get(`https://api.spotify.com/v1/artists/${id}`, {
-//            headers: {
-//                Authorization: `Bearer ${token}`
-//            }
-//        });
-//        return res.data;
-//    } catch (error) {
-//        console.error("err", error);
-//    }
-//}
-//
-//export async function getProfile(token: string, nombre: string){
-//    try {
-//        const res = await axios.get(`https://api.spotify.com/v1/users/${nombre}`, {
-//            headers: {
-//                Authorization: `Bearer ${token}`
-//            }
-//        });
-//
-//        return res.data;
-//    } catch (error) {
-//        console.error("err", error);
-//    }
-//}
-
 function generateCodeVerifier(length: number) {
     let text = '';
     let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -83,8 +56,7 @@ export async function getAccessToken(clientId: string, code: string): Promise<st
     return access_token;
 }
 
-export async function fetchProfile(): Promise<UserProfile> {
-    const token = localStorage.getItem('token')
+export async function fetchProfile(token: string): Promise<UserProfile> {
     const res = await axios.get(`https://api.spotify.com/v1/me`, {
         headers: {
             Authorization: `Bearer ${token}`
@@ -94,8 +66,11 @@ export async function fetchProfile(): Promise<UserProfile> {
     return res.data;
 }
 
-export async function fetchArtist(nombre: string): Promise<any> { //! create type for artist
-    const token = localStorage.getItem('token')
+export async function fetchTopTracks(token: string): Promise<any> { //! create type for top tracks
+
+}
+
+export async function fetchArtist(token: string, nombre: string): Promise<any> { //! create type for artist
     const res = await axios.get(`https://api.spotify.com/v1/search`, {
         headers: {
             Authorization: `Bearer ${token}`

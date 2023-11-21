@@ -3,13 +3,13 @@ import { fetchProfile, getAccessToken, redirectToAuthCode } from '../api/spotify
 
 export default function SpotifyLogin() {
 	const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-	const APP_PERMISSIONS = "user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state";
+	const APP_PERMISSIONS = "user-read-email%20user-read-private%20user-top-read";
 	let REDIRECT_URI = "http://localhost:3000"
 
 	let params = new URLSearchParams(window.location.search);
 	//let code = this.params.get("code");
 
-	if(process.env.NODE_ENV == 'production') {
+	if (process.env.NODE_ENV == 'production') {
 		REDIRECT_URI = "https://bit-wave.vercel.app";
 	} 
 
@@ -31,7 +31,7 @@ export default function SpotifyLogin() {
 
 	//only make the request if there is a token
 	if (token) {
-		fetchProfile().then (res => {
+		fetchProfile(token).then (res => {
 			console.log("profile: ", res)
 			document.getElementById("displayName")!.innerHTML = res.display_name;
 			document.getElementById("id")!.innerHTML = res.id;

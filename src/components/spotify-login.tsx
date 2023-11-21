@@ -1,5 +1,5 @@
 import React, { Component} from 'react'
-import { fetchProfile, getAccessToken, redirectToAuthCode } from '../api/spotify';
+import { fetchProfile, fetchTopTracks, fetchTrack, getAccessToken, redirectToAuthCode } from '../api/spotify';
 
 export default function SpotifyLogin() {
 	const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
@@ -32,7 +32,7 @@ export default function SpotifyLogin() {
 	//only make the request if there is a token
 	if (token) {
 		fetchProfile(token).then (res => {
-			console.log("profile: ", res)
+			//console.log("profile: ", res)
 			document.getElementById("displayName")!.innerHTML = res.display_name;
 			document.getElementById("id")!.innerHTML = res.id;
 			document.getElementById("email")!.innerHTML = res.email;
@@ -42,6 +42,15 @@ export default function SpotifyLogin() {
 			document.getElementById("url")!.setAttribute("href", res.external_urls.spotify);
 			document.getElementById("imgUrl")!.innerHTML = res.images[0].url;
 			document.getElementById("avatar")!.innerHTML = `<img src="${res.images[0].url}" />`;
+		});
+		
+		fetchTopTracks(token).then (res => {
+			console.log("top tracks: ", res)
+
+			fetchTrack(token, res.items[0].id).then (res => {
+				console.log("track: ", res)
+			})
+			
 		});
 	}
 

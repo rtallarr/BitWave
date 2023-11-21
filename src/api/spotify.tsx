@@ -67,10 +67,31 @@ export async function fetchProfile(token: string): Promise<UserProfile> {
 }
 
 export async function fetchTopTracks(token: string): Promise<any> { //! create type for top tracks
+    const res = await axios.get(`https://api.spotify.com/v1/me/top/tracks`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        params: {
+            time_range: 'long_term',
+            limit: 10,
+            offset: 0
+        }
+    });
 
+    return res.data;
 }
 
-export async function fetchArtist(token: string, nombre: string): Promise<any> { //! create type for artist
+export async function fetchTrack(token: string, id: string): Promise<Track> {
+    const res = await axios.get(`https://api.spotify.com/v1/tracks/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    return res.data;
+}
+
+export async function searchArtist(token: string, nombre: string): Promise<any> { //! create type for artist
     const res = await axios.get(`https://api.spotify.com/v1/search`, {
         headers: {
             Authorization: `Bearer ${token}`

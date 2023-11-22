@@ -1,4 +1,5 @@
 import { fetchProfile, fetchTopTracks, fetchTrack } from "../api/spotify";
+import TopTracks from "./TopTracks";
 
 export default function Dashboard({ token }: { token: string }) {
     //only make the request if there is a token
@@ -15,15 +16,6 @@ export default function Dashboard({ token }: { token: string }) {
 			document.getElementById("imgUrl")!.innerHTML = res.images[0].url;
 			document.getElementById("avatar")!.innerHTML = `<img src="${res.images[0].url}" />`;
 		});
-		
-		fetchTopTracks(token).then (res => {
-			console.log("top tracks: ", res)
-
-			fetchTrack(token, res.items[0].id).then (res => {
-				console.log("track: ", res)
-			})
-			
-		});
 	}
 
     return (
@@ -38,6 +30,7 @@ export default function Dashboard({ token }: { token: string }) {
                 <li>Profile Image: <span id="imgUrl"></span></li>
                 <li>Avatar: <span id='avatar'></span></li>
             </ul>
+			<TopTracks token={token} />
         </section>
     )
 }

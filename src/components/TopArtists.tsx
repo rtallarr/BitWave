@@ -7,7 +7,7 @@ export default function TopArtists({ token }: { token: string }) {
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchTopArtists(token).then (res => {
+        fetchTopArtists(token, 'long_term').then (res => {
             setTopArtists(res.items);
             setLoading(false);
         });

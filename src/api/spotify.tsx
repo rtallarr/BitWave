@@ -66,13 +66,13 @@ export async function fetchProfile(token: string): Promise<UserProfile> {
     return res.data;
 }
 
-export async function fetchTopTracks(token: string): Promise<any> { //! create type for top tracks
+export async function fetchTopTracks(token: string, range: string): Promise<any> { //! create type for top tracks
     const res = await axios.get(`https://api.spotify.com/v1/me/top/tracks`, {
         headers: {
             Authorization: `Bearer ${token}`
         },
         params: {
-            time_range: 'long_term',
+            time_range: range,
             limit: 10,
             offset: 0
         }
@@ -81,13 +81,13 @@ export async function fetchTopTracks(token: string): Promise<any> { //! create t
     return res.data;
 }
 
-export async function fetchTopArtists(token: string): Promise<any> { //! create type for top artists
+export async function fetchTopArtists(token: string, range: string): Promise<any> { //! create type for top artists
     const res = await axios.get(`https://api.spotify.com/v1/me/top/artists`, {
         headers: {
             Authorization: `Bearer ${token}`
         },
         params: {
-            time_range: 'long_term',
+            time_range: range,
             limit: 10,
             offset: 0
         }

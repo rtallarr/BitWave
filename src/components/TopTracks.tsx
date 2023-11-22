@@ -7,7 +7,7 @@ export default function TopTracks({ token }: { token: string }) {
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchTopTracks(token).then (res => {
+        fetchTopTracks(token, 'long_term').then (res => {
             setTopTracks(res.items);
             setLoading(false);
         });

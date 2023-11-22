@@ -1,4 +1,5 @@
-import { fetchProfile, fetchTopTracks, fetchTrack } from "../api/spotify";
+import { fetchProfile } from "../api/spotify";
+import TopArtists from "./TopArtists";
 import TopTracks from "./TopTracks";
 
 export default function Dashboard({ token }: { token: string }) {
@@ -19,18 +20,21 @@ export default function Dashboard({ token }: { token: string }) {
 	}
 
     return (
-        <section id="profile">
-            <h2>Logged in as <span id="displayName"></span></h2>
-            <span id="avatar"></span>
-            <ul>
-                <li>User ID: <span id="id"></span></li>
-                <li>Email: <span id="email"></span></li>
-                <li>Spotify URI: <a id="uri" href="#"></a></li>
-                <li>Link: <a id="url" href="#"></a></li>
-                <li>Profile Image: <span id="imgUrl"></span></li>
-                <li>Avatar: <span id='avatar'></span></li>
-            </ul>
+		<div>
+        	<section id="profile">
+        	    <h2>Logged in as <span id="displayName"></span></h2>
+        	    <span id="avatar"></span>
+        	    <ul>
+        	        <li>User ID: <span id="id"></span></li>
+        	        <li>Email: <span id="email"></span></li>
+        	        <li>Spotify URI: <a id="uri" href="#"></a></li>
+        	        <li>Link: <a id="url" href="#"></a></li>
+        	        <li>Profile Image: <span id="imgUrl"></span></li>
+        	        <li>Avatar: <span id='avatar'></span></li>
+        	    </ul>
+        	</section>
 			<TopTracks token={token} />
-        </section>
+			<TopArtists token={token} />
+		</div>
     )
 }

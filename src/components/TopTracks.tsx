@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { fetchTopTracks } from "../api/spotify";
 
-export default function TopTracks({ token }: { token: string }) {
+export default function TopTracks({ token, time_range }: { token: string, time_range: string }) {
 
     const [topTracks, setTopTracks] = useState<any>([]); //! change to type track
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchTopTracks(token, 'long_term').then (res => {
+        fetchTopTracks(token, time_range).then (res => {
             setTopTracks(res.items);
             setLoading(false);
         });

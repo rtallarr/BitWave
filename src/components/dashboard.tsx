@@ -33,8 +33,8 @@ export default function Dashboard({ token }: { token: string }) {
         	        <li>Avatar: <span id='avatar'></span></li>
         	    </ul>
         	</section>
-			<TopTracks token={token} />
-			<TopArtists token={token} />
+			<TopTracks token={token} time_range={'long_term'} />
+			<TopArtists token={token} time_range={'long_term'} />
 		</div>
     )
 }

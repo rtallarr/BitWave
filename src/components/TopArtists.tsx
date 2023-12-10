@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { fetchTopArtists } from "../api/spotify";
 
-export default function TopArtists({ token }: { token: string }) {
+export default function TopArtists({ token, time_range }: { token: string, time_range: string }) {
 
     const [topArtists, setTopArtists] = useState<any>([]); //! change to type Artists
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchTopArtists(token, 'long_term').then (res => {
+        fetchTopArtists(token, time_range).then (res => {
             setTopArtists(res.items);
             setLoading(false);
         });

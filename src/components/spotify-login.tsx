@@ -1,6 +1,6 @@
 export default function SpotifyLogin() {
 	const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-	const APP_PERMISSIONS = "user-read-email user-read-private user-top-read";
+	const APP_PERMISSIONS = "user-read-email user-read-private user-top-read user-library-read";
 	let REDIRECT_URI = "http://localhost:3000";
 
 	if (process.env.NODE_ENV == 'production') {

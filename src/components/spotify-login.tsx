@@ -7,6 +7,9 @@ export default function SpotifyLogin() {
 		REDIRECT_URI = "https://bit-wave.vercel.app";
 	} 
 
+	console.log("Ambiente:", process.env.NODE_ENV);
+	console.log("ID cliente:", process.env.REACT_APP_CLIENT_ID);
+
 	return (
   		<div>
 			<a href={`${AUTH_ENDPOINT}?client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=${APP_PERMISSIONS}`}>

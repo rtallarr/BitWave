@@ -1,6 +1,7 @@
 import { fetchProfile } from "../api/spotify";
 import TopArtists from "./TopArtists";
 import TopTracks from "./TopTracks";
+import TrackStats from "./TrackStats";
 
 export default function Dashboard({ token }: { token: string }) {
     //only make the request if there is a token
@@ -33,8 +34,14 @@ export default function Dashboard({ token }: { token: string }) {
         	        <li>Avatar: <span id='avatar'></span></li>
         	    </ul>
         	</section>
+			{/* 
+			time_range=long_term - several years
+			time_range=medium_term - 6 months (default)
+			time_range=short_term - 4 weeks
+			*/}
 			<TopTracks token={token} time_range={'long_term'} />
 			<TopArtists token={token} time_range={'long_term'} />
+			{/* <TrackStats token={token} trackId="2tTmW7RDtMQtBk7m2rYeSw" />  */}
 		</div>
     )
 }

@@ -116,6 +116,16 @@ export async function fetchArtist(token: string, id: string): Promise<Artist> {
     return res.data;
 }
 
+export async function fetchAudioFeatures(token: string, id: string): Promise<any> { //! create type for audio features
+    const res = await axios.get(`https://api.spotify.com/v1/audio-features/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    return res.data;
+}
+
 export async function searchArtist(token: string, nombre: string): Promise<any> { //! create type for artist
     const res = await axios.get(`https://api.spotify.com/v1/search`, {
         headers: {
